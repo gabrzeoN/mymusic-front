@@ -1,22 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserContext from "./Usecontext";
+import UserContext from "./UserContext";
 import { useState } from "react";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import HomeScreen from "./HomeScreen"
 
-
-
-
 function App() {
-    const [token, setToken] = useState("");
-    const [dados, setDados] = useState("");
-    const [logo, setLogo] = useState("");
-    const [name, setName] = useState("");
-
+    const [userData, setUserData] = useState({
+        name: null,
+        image: null,
+        token: null
+    });
 
     return (
-        <UserContext.Provider value={{ token, setToken, dados, setDados, logo, setLogo, name, setName }}>
+        <UserContext.Provider value={{ userData, setUserData }}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<SignIn />} /> 
@@ -29,4 +26,3 @@ function App() {
 }
 
 export default App;
-

@@ -3,21 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { useContext } from "react";
-import UserContext from "./Usecontext";
-
-
-
+import UserContext from "./UserContext";
 
 export default function HomeScreen() {
-    const { token } = useContext(UserContext)
+    const { userData } = useContext(UserContext)
+    const{name, image, token} = userData;
     console.log(token);
     const config = {
         headers: { "Authorization": `Bearer ${token}` }
     }
-
-    const { dados } = useContext(UserContext)
-    const { logo } = useContext(UserContext)
-    const { name } = useContext(UserContext)
 
     console.log(dados)
 
