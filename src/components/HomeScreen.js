@@ -13,7 +13,7 @@ export default function HomeScreen() {
         headers: { "Authorization": `Bearer ${token}` }
     }
 
-    console.log(dados)
+ 
 
     const navigate = useNavigate();
 

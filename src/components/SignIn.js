@@ -51,7 +51,10 @@ const Container = styled.div`
     align-items: center;
     flex-direction: column;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.76) 100%), linear-gradient(180deg, #125038 0%, rgba(22, 199, 130, 0) 100%), url(https://th.bing.com/th/id/OIP.cIEl06ecEnsm0bJFPPryRAHaMB?pid=ImgDet&rs=1);
-
+    form {
+        display: flex;
+        flex-direction: column;
+    }
     p {
         width: 147px;
         height: 50px;
