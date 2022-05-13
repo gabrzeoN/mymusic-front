@@ -4,6 +4,7 @@ import { useState } from "react";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import HomeScreen from "./HomeScreen"
+import CartScreen from "./CartScreen";
 
 function App() {
     const [userData, setUserData] = useState({
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/" element={<SignIn />} /> 
                     <Route path="/sign-up" element={<SignUp />} /> 
                     <Route path="/home" element={<HomeScreen />} /> 
+                    <Route path="/cart" element={<CartScreen />} /> 
                 </Routes>
             </BrowserRouter>
         </UserContext.Provider>
