@@ -1,200 +1,143 @@
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 import UserContext from "./UserContext";
+import Item from "./Item.js"
 
 export default function HomeScreen() {
+    const getStoreURL = `http://localhost:5000/store`;
+    const [storeItems, setStoreItems] = useState(null);
+    const [itemsOnDisplay, setItemsOnDisplay] = useState(null);
     const { userData } = useContext(UserContext)
-    const{name, image, token} = userData;
-    console.log(token);
-    const config = {
-        headers: { "Authorization": `Bearer ${token}` }
-    }
-
- 
-
+    // const {name, image, token} = userData;
+    const name = "Gabriel", image = "https://http.cat/200", token = "60109657-c9fb-41d2-9e93-ff416973b721";
     const navigate = useNavigate();
 
-    function excluir() {
-        const URL = "http://127.0.0.1:5000/home";
-        ;
-        const promise = axios.delete(URL, config);
-        promise.then(response => {
-            const { data } = response;
-            console.log(data);
-            navigate("/subscriptions");
-        });
-        promise.catch(err => {
-            console.log("Erro ao deletar")
-        });
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
     }
 
-    useEffect(() => {
-        const promise = axios.get("http://127.0.0.1:5000/add-value", config)
-        promise.then((result) => {
-            console.log(result.data)
-        })
-        promise.catch((err) => {
-            console.log(err)
-        })
-    }, [])
+    async function getAllItems() {
+        try{
+            const {data: items} = await axios.get(getStoreURL, config);
+            console.log(items);
+            setStoreItems([...items]);
+            setItemsOnDisplay([...items]);
+            return;
+        }catch(e){
+            alert(e.response.data);
+            return;
+        }
+    }
 
-    return (<Container>
-        <Topo>
-            <h1 className="icon">Olá, {name} </h1>
-           
-        </Topo>
-        <Main>
-            <h1>Não há registros de entrada ou saída </h1>
-        </Main>
-        <Menu>
-            <Link to="/new-entry"><Button1 className="alterar" >
-               
-                <h1>Nova entrada</h1>
-                </Button1>
-            </Link>
-            <Link to="/new-retire">
-                <Button2 onClick={excluir} className="cancelar">
-                   
-                     <h1>Nova saída</h1>
-                </Button2>
-            </Link>
-        </Menu>
-    </Container>
+    function filterItemsOnDisplay(category){
+        const items = storeItems.filter(item => item.type === category);
+        setItemsOnDisplay([...items]);
+    }
+
+    useEffect(() => getAllItems(), [])
+
+    return (
+        <Container>
+            <Header>
+                <div>
+                    <ion-icon name="log-out-outline"></ion-icon>
+                    <img src={image}></img>
+                </div>
+                <h1>MyMusic</h1>
+                <Link to="/cart">
+                    <ion-icon name="cart-outline"></ion-icon>
+                </Link>
+            </Header>
+            <Main>
+                <section className="welcome">
+                    <p>Hi, {name}</p>
+                    <p>What are you looking for today?</p>
+                </section>
+                <section className="filter">
+                    <button onClick={() => filterItemsOnDisplay("eletric-guitar")}      >Eletrics</button>
+                    <button onClick={() => filterItemsOnDisplay("accoustic-guitar")}    >Accoustics</button>
+                    <button onClick={() => filterItemsOnDisplay("bass")}                >Basses</button>
+                    <button onClick={() => filterItemsOnDisplay("guitar-amps")}         >Guitar Amps</button>
+                    <button onClick={() => filterItemsOnDisplay("bass-amps")}           >Bass Amps</button>
+                </section>
+                <section className="items-on-display">
+
+                </section>
+                {
+                    itemsOnDisplay === null
+                    ?
+                        <h2>Loading cart...</h2>
+                    :
+                    itemsOnDisplay.length < 1
+                        ?
+                            <h2>There is nothing to display</h2>
+                        :
+                        itemsOnDisplay?.map((item, index) => {
+                                return <Item key={index} item={item}></Item>
+                            })
+                }
+            </Main>
+        </Container>
     )
 }
 
 
-const Container3 = styled.div`
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        `;
 const Container = styled.div`
-width: 100%;
-height: 100vh;
-padding: 31px;
-
-`;
-const Topo = styled.div`
-width: 100%;
-position: absolute;
-left: 0;
-right: 0;
-top: 25px;
-display: flex;
-justify-content: space-around;
-
-.imagem {
-    
-left: 87.47%;
-right: 6.4%;
-top: 4.2%;
-bottom: 92.2%;
-
-
-}
-
-h1 {
-    font-family: 'Raleway';
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-line-height: 28px;
-
-color: #FFFFFF;
-}
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
 `;
 
-const Main = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-width: 326px;
-height: 446px;
-background: #FFFFFF;
-border-radius: 5px;
-margin-top: 78px;
+const Header = styled.div`
+    background-color: lightblue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0px 20px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 1;
+    font-size: 30px;
+    img{
+        width: 30px;
+        height: 30px;
+        margin-left: 20px;
+        border-radius: 50%;
+    }
 
-h1 {
-width: 180px;
-height: 46px;
-
-font-family: 'Raleway';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 23px;
-text-align: center;
-
-color: #868686;}
-`
-const Menu = styled.div`
-display: flex;
-justify-content: space-between;
-width: 100%;
-margin-top: 13px;
 `;
-const Button = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-width: 303px;
-height: 45px;
-background: #FF4791;
-border-radius: 4.63636px;
-margin-top: 10px;
-margin-bottom: 24px;
-font-family: 'Raleway';
-font-style: normal;
-font-weight: 400;
-font-size: 20.976px;
-line-height: 26px;
-text-align: center;
-color: #FFFFFF;
 
-`
-const Button1 = styled.div`
-width: 155px;
-height: 114px;
-background: #A328D6;
-border-radius: 5px;
-display: flex;
-flex-direction: column;
-justify-content: space-around;
-img {width: 22px;
-height: 22px;
-}
-h1 {font-family: 'Raleway';
-font-style: normal;
-font-weight: 700;
-font-size: 17px;
-line-height: 20px;
+const Main = styled.main`
+    background-color: green;
+    margin-top: 70px;
+    flex-wrap: nowrap;
+    .welcome{
+        background-color: blue;
+    }
 
-color: #FFFFFF; }
-`;
-const Button2 = styled.div`
+    .filter{
+        width: 100%;
+        display: flex;
+        /* flex-wrap: nowrap; */
+        overflow-x: scroll;
+        button{
+            width: 100px;
+            height: 30px;
+            background-color: lightgreen;
+            border-radius: 50px;
+            margin: 0px 5px;
+        }
+    }
 
-width: 156px;
-height: 114px;
-background: #A328D6;
-border-radius: 5px;
-display: flex;
-flex-direction: column;
-justify-content: space-around;
-
-img {width: 22px;
-height: 22px;
-}
-h1 {font-family: 'Raleway';
-font-style: normal;
-font-weight: 700;
-font-size: 17px;
-line-height: 20px;
-
-color: #FFFFFF; }
+    .items-on.display{
+        background-color: lightgray;
+    }
 `;
