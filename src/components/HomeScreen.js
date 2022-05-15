@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import UserContext from "./UserContext";
-import Item from "./Item.js"
+import StoreItem from "./StoreItem.js"
 
 export default function HomeScreen() {
     const getStoreURL = `http://localhost:5000/store`;
@@ -59,28 +59,30 @@ export default function HomeScreen() {
                     <p>What are you looking for today?</p>
                 </section>
                 <section className="filter">
-                    <button onClick={() => filterItemsOnDisplay("eletric-guitar")}      >Eletrics</button>
-                    <button onClick={() => filterItemsOnDisplay("accoustic-guitar")}    >Accoustics</button>
-                    <button onClick={() => filterItemsOnDisplay("bass")}                >Basses</button>
-                    <button onClick={() => filterItemsOnDisplay("guitar-amps")}         >Guitar Amps</button>
-                    <button onClick={() => filterItemsOnDisplay("bass-amps")}           >Bass Amps</button>
+                    <button onClick={() => filterItemsOnDisplay("eletric-guitar")}      >ELETRICS</button>
+                    <button onClick={() => filterItemsOnDisplay("accoustic-guitar")}    >ACCOUSTICS</button>
+                    <button onClick={() => filterItemsOnDisplay("bass")}                >BASSES</button>
+                    <button onClick={() => filterItemsOnDisplay("guitar-amps")}         >GUITAR AMPS</button>
+                    <button onClick={() => filterItemsOnDisplay("bass-amps")}           >BASS AMPS</button>
+                    <button onClick={() => filterItemsOnDisplay("bass-amps")}           >BASS AMPS</button> {/*TODO: apagar os 3 ultimos botoes */}
+                    <button onClick={() => filterItemsOnDisplay("bass-amps")}           >BASS AMPS</button>
+                    <button onClick={() => filterItemsOnDisplay("bass-amps")}           >BASS AMPS</button>
                 </section>
                 <section className="items-on-display">
-
-                </section>
-                {
-                    itemsOnDisplay === null
-                    ?
-                        <h2>Loading cart...</h2>
-                    :
-                    itemsOnDisplay.length < 1
+                    {
+                        itemsOnDisplay === null
                         ?
-                            <h2>There is nothing to display</h2>
+                            <h2>Loading cart...</h2>
                         :
-                        itemsOnDisplay?.map((item, index) => {
-                                return <Item key={index} item={item}></Item>
-                            })
-                }
+                        itemsOnDisplay.length < 1
+                            ?
+                                <h2>There is nothing to display</h2>
+                            :
+                            itemsOnDisplay?.map((item, index) => {
+                                    return <StoreItem key={index} item={item}></StoreItem>
+                                })
+                    }
+                </section>
             </Main>
         </Container>
     )
@@ -88,13 +90,15 @@ export default function HomeScreen() {
 
 
 const Container = styled.div`
-    background-color: yellow;
+    /* background-color: yellow; */
     display: flex;
     flex-direction: column;
+    
 `;
 
 const Header = styled.div`
-    background-color: lightblue;
+    /* background-color: lightblue; */
+    background-color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -116,28 +120,49 @@ const Header = styled.div`
 `;
 
 const Main = styled.main`
-    background-color: green;
+    /* background-color: green; */
     margin-top: 70px;
-    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: column;
     .welcome{
-        background-color: blue;
+        padding: 0px 20px;
+        /* background-color: blue; */
+        p:first-child{
+            font-size: 15px;
+            margin: 10px 0px;
+        }
+        p:last-child{
+            font-size: 35px;
+            margin: 10px 0px;
+        }
     }
 
     .filter{
         width: 100%;
+        /* margin: 10px 0px; */
         display: flex;
-        /* flex-wrap: nowrap; */
         overflow-x: scroll;
         button{
-            width: 100px;
+            min-width: 130px;
             height: 30px;
             background-color: lightgreen;
             border-radius: 50px;
-            margin: 0px 5px;
+            border: 0px;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 10px 5px;
         }
     }
 
-    .items-on.display{
-        background-color: lightgray;
+    .items-on-display{
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .items-on-display:last-child{
+        margin-bottom: 80px;
     }
 `;
