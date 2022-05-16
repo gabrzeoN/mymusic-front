@@ -13,3 +13,7 @@ a{
 a:visited{
   text-decoration: none;
 }
+
+ion-icon{
+  color: black;
+}

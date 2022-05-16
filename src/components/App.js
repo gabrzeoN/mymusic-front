@@ -6,6 +6,10 @@ import SignIn from "./SignIn";
 import HomeScreen from "./HomeScreen"
 import CartScreen from "./CartScreen";
 import SuccessScreen from "./SuccessScreen";
+import DescriptionScreen from "./DescriptionScreen";
+
+import "./../assets/reset.css";
+import "./../assets/style.css";
 
 function App() {
     const [userData, setUserData] = useState({
@@ -20,7 +24,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<SignIn />} /> 
                     <Route path="/sign-up" element={<SignUp />} /> 
-                    <Route path="/home" element={<HomeScreen />} /> 
+                    <Route path="/home" element={<HomeScreen />} />
+                    <Route path="/description/:itemID" element={<DescriptionScreen />} /> 
                     <Route path="/cart" element={<CartScreen />} />
                     <Route path="/success" element={<SuccessScreen />} />
                 </Routes>

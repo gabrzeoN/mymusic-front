@@ -8,6 +8,7 @@ import StoreItem from "./StoreItem.js"
 
 export default function HomeScreen() {
     const getStoreURL = `http://localhost:5000/store`;
+    const putLogoutURL = "http://localhost:5000/sign-out";
     const [storeItems, setStoreItems] = useState(null);
     const [itemsOnDisplay, setItemsOnDisplay] = useState(null);
     const { userData } = useContext(UserContext)
@@ -24,13 +25,23 @@ export default function HomeScreen() {
     async function getAllItems() {
         try{
             const {data: items} = await axios.get(getStoreURL, config);
-            console.log(items);
+            console.log(items); // TODO: erase me
             setStoreItems([...items]);
             setItemsOnDisplay([...items]);
             return;
         }catch(e){
+            navigate("/");
             alert(e.response.data);
             return;
+        }
+    }
+
+    async function logout(){
+        try{
+            await axios.put(putLogoutURL, {}, config);
+            navigate("/");
+        }catch(error){
+            alert(error.response.data);
         }
     }
 
@@ -45,7 +56,7 @@ export default function HomeScreen() {
         <Container>
             <Header>
                 <div>
-                    <ion-icon name="log-out-outline"></ion-icon>
+                    <ion-icon onClick={() => logout()} name="log-out-outline"></ion-icon>
                     <img src={image}></img>
                 </div>
                 <h1>MyMusic</h1>
@@ -63,9 +74,6 @@ export default function HomeScreen() {
                     <button onClick={() => filterItemsOnDisplay("accoustic-guitar")}    >ACCOUSTICS</button>
                     <button onClick={() => filterItemsOnDisplay("bass")}                >BASSES</button>
                     <button onClick={() => filterItemsOnDisplay("guitar-amps")}         >GUITAR AMPS</button>
-                    <button onClick={() => filterItemsOnDisplay("bass-amps")}           >BASS AMPS</button>
-                    <button onClick={() => filterItemsOnDisplay("bass-amps")}           >BASS AMPS</button> {/*TODO: apagar os 3 ultimos botoes */}
-                    <button onClick={() => filterItemsOnDisplay("bass-amps")}           >BASS AMPS</button>
                     <button onClick={() => filterItemsOnDisplay("bass-amps")}           >BASS AMPS</button>
                 </section>
                 <section className="items-on-display">
