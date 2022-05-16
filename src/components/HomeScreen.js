@@ -13,7 +13,7 @@ export default function HomeScreen() {
     const [itemsOnDisplay, setItemsOnDisplay] = useState(null);
     const { userData } = useContext(UserContext)
     const {name, image, token} = userData;
-    // const name = "Gabriel", image = "https://http.cat/200", token = "60109657-c9fb-41d2-9e93-ff416973b721";
+
     const navigate = useNavigate();
 
     const config = {
@@ -25,7 +25,6 @@ export default function HomeScreen() {
     async function getAllItems() {
         try{
             const {data: items} = await axios.get(getStoreURL, config);
-            console.log(items); // TODO: erase me
             setStoreItems([...items]);
             setItemsOnDisplay([...items]);
             return;
@@ -96,16 +95,13 @@ export default function HomeScreen() {
     )
 }
 
-
 const Container = styled.div`
-    /* background-color: yellow; */
     display: flex;
     flex-direction: column;
     
 `;
 
 const Header = styled.div`
-    /* background-color: lightblue; */
     background-color: white;
     display: flex;
     justify-content: space-between;
@@ -128,13 +124,11 @@ const Header = styled.div`
 `;
 
 const Main = styled.main`
-    /* background-color: green; */
     margin-top: 70px;
     display: flex;
     flex-direction: column;
     .welcome{
         padding: 0px 20px;
-        /* background-color: blue; */
         p:first-child{
             font-size: 15px;
             margin: 10px 0px;
@@ -147,13 +141,13 @@ const Main = styled.main`
 
     .filter{
         width: 100%;
-        /* margin: 10px 0px; */
         display: flex;
         overflow-x: scroll;
         button{
+            color: white;
             min-width: 130px;
             height: 30px;
-            background-color: lightgreen;
+            background-color: var(--main-green);
             border-radius: 50px;
             border: 0px;
             font-size: 15px;

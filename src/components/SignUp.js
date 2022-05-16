@@ -23,7 +23,6 @@ export default function Signup() {
         });
         promise.then(response => {
             const { data } = response;
-            console.log(data);
             navigate("/");
         });
         promise.catch(error => {

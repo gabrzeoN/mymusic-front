@@ -20,8 +20,8 @@ export default function SignIn() {
             password
         });
         promise.then(({data}) => {
-            console.log(data)
-            setUserData({...userData, token: data.token});
+            const {name, image, token} = data;
+            setUserData({name, image, token});
             navigate("/home");
             return;
         });

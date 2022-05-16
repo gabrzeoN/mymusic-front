@@ -6,7 +6,6 @@ export default function StoreItem({item}){
     const navigate = useNavigate();
 
     async function showItemDescription(){
-        // navigate(`/description/${name}`, [item])
         navigate(`/description/${name}`, {state: item})
     }
 
