@@ -1,23 +1,46 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import {useContext} from "react";
 import UserContext from "./UserContext";
+import axios from "axios";
 
 
 
 export default function SucessScreen() {
  
-   
+    const navigate = useNavigate();
     const { userData } = useContext(UserContext);
+    const { image, name, token } = userData;
+    const putLogoutURL = "https://mymusic-gabrielcari.herokuapp.com/sign-out";
+
+    
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    async function logout(){
+        try{
+            await axios.put(putLogoutURL, {}, config);
+            navigate("/");
+        }catch(error){
+            alert(error.response.data);
+        }
+    }
 
     return (
         <Container>
-            <Header>
-            <p1>logout</p1>
-            <p1>cart</p1>
-            <logo>MyMusic</logo>
-            <img src={userData.image} />
+           <Header>
+                
+                    <ion-icon onClick={() => logout()} name="log-out-outline"></ion-icon>
+                    <img src={image}></img>
+                
+                <h1>MyMusic</h1>
+                <Link to="/cart">
+                    <ion-icon name="cart-outline"></ion-icon>
+                </Link>
             </Header>
             <p>Hi, {userData.name}</p>
             <h1>Enjoy your new instrument!</h1>
@@ -26,34 +49,26 @@ export default function SucessScreen() {
     )
 }
 const Header = styled.div`
-display: flex;
-justify-content: space-around;
-margin-top: 10px;
-position: fixed;
-height: 35px;
-top: 0;
-left: 0;
-right: 0;
+  background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0px 20px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 1;
+    font-size: 30px;
+   
+    img{
+        width: 30px;
+        height: 30px;
+        margin-left: 20px;
+        border-radius: 50%;
+    }
 
-p1 {
-    font-size: 15px;
-    font-family: 'DM Sans';
-    font-style: normal;
-    font-weight: 500;
-} 
-logo {
-    font-size: 15px;
-    font-family: 'DM Sans';
-    font-style: normal;
-    font-weight: 700;
-
-}
-
-img {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-}
 `
 const Container = styled.div`
     min-height: 100vh;
@@ -119,12 +134,5 @@ const Button = styled.div`
     font-weight: 400;
     font-size: 20.976px;
     color: #FFFFFF;
+    text-decoration: none;
 `
-const StyledLink = styled(Link)`
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #FFFFFF;
-    font-family: 'DM Sans';
-`;

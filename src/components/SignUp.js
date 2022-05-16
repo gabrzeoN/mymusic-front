@@ -16,7 +16,7 @@ export default function Signup() {
 
     function register(e) {
         e.preventDefault();
-        const URL = "http://127.0.0.1:5000/sign-up";
+        const URL = "https://mymusic-gabrielcari.herokuapp.com/sign-up";
         const promise = axios.post(URL, {
             email: email,
             name: name,
