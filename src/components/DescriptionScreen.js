@@ -12,10 +12,8 @@ export default function DescriptionScreen(){
     
     const postItemToCartURL = `http://localhost:5000/cart`;
     const { userData } = useContext(UserContext)
-    // const {token} = userData;
-    const token = "60109657-c9fb-41d2-9e93-ff416973b721"; // TODO: erase me
+    const {token} = userData;
     const navigate = useNavigate();
-    console.log(location); // TODO: erase me
 
     const config = {
         headers: {
@@ -26,7 +24,6 @@ export default function DescriptionScreen(){
     async function addToCart(){
         try{
             const {data} = await axios.post(postItemToCartURL,{name, image, description, price}, config);
-            console.log(data) // TODO: erase me
             navigate("/cart");
             return;
         }catch(e){
@@ -64,7 +61,6 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-    /* background-color: lightblue; */
     background-color: white;
     display: flex;
     justify-content: space-between;
@@ -110,14 +106,14 @@ const Main = styled.main`
     h2{
         margin-top: 70px;
         font-weight: bold;
-        color: lightgreen;
+        color: var(--main-green);
     }
 
     button{
         margin-top: 20px;
         width: 300px;
         height: 40px;
-        background-color: lightgreen;
+        background-color: var(--main-green);
         border: 0px solid black;
         border-radius: 15px;
         color: white;

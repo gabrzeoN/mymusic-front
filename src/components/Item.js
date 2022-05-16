@@ -10,14 +10,15 @@ export default function Item({item}){
             <p>{name}</p>
             <div>
                 <p>USD {price}</p>
-                <ion-icon name="trash-outline"></ion-icon>
+                {/* <ion-icon name="trash-outline"></ion-icon> */}
             </div>
         </ItemContent>
     );
 }
 
 const ItemContent = styled.div`
-    background-color: lightgray;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+    background-color: white;
     width: 326px;
     display: flex;
     flex-direction: column;
@@ -40,5 +41,9 @@ const ItemContent = styled.div`
         width: 100%;
         display: flex;
         justify-content: space-between;
+
+        ion-icon{
+            font-size: 25px;
+        }
     }
 `;

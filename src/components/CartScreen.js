@@ -4,12 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "./UserContext.js";
 import Item from "./Item.js";
-// {
-//     "name": "AMERICAN PROFESSIONAL II STRATOCASTER®",
-//     "image": "https://i0.wp.com/guitarload.com.br/wp-content/uploads/2018/04/fender-strat-tele-hybrid-nova-guitarra-1.png?fit=800%2C260&ssl=1",
-//     "description": "The American Professional II Stratocaster® draws from more than sixty years of innovation, inspiration and evolution to meet the demands of today’s working player. \nOur popular Deep “C” neck now sports smooth rolled fingerboard edges, a “Super-Natural” satin finish and a newly sculpted neck heel for a supremely comfortable feel and easy access to the upper register. New V-Mod II Stratocaster single-coil pickups are more articulate than ever while retaining bell-like chime and warmth. An upgraded 2-point tremolo with a cold-rolled steel block increases sustain, clarity and high-end sparkle. \nThe American Pro II Stratocaster delivers instant familiarity and sonic versatility you’ll feel and hear right away, with broad ranging improvements that add up to nothing less than a new standard for professional instruments.",
-//     "price": 1500
-// }
 
 export default function CartScreen(){
     const getCartURL = `http://localhost:5000/cart`;
@@ -17,12 +11,10 @@ export default function CartScreen(){
     const [userCart, setUserCart] = useState(null);
     const [totalValue, setTotalValue] = useState(0);
     const {userData} = useContext(UserContext);
-    const {token} = userData;
-
+    const {token, image} = userData;
     const config = {
         headers: {
-            // Authorization: `Bearer ${token}`
-            Authorization: `Bearer 60109657-c9fb-41d2-9e93-ff416973b721`
+            Authorization: `Bearer ${token}`
         }
     }
 
@@ -37,10 +29,10 @@ export default function CartScreen(){
         try{
             const {data: cart} = await axios.get(getCartURL, config);
             setCartValue(cart);
-            console.log(cart)
             setUserCart([...cart]);
             return;
         }catch(e){
+            navigate("/");
             alert(e.response.data);
             return;
         }
@@ -54,7 +46,7 @@ export default function CartScreen(){
                     <ion-icon onClick={() => navigate("/home")} name="chevron-back-outline"></ion-icon>
                 </div>
                 <h1>Shopping Cart</h1>
-                <ion-icon name="trash-outline"></ion-icon>
+                <img src={image} ></img>
             </Header>
             <Main>
                 {
@@ -76,8 +68,8 @@ export default function CartScreen(){
                     <p>Total {userCart ? userCart.length : 0} items</p>
                     <p>USD {totalValue}</p>
                 </div>
-                <Link to="/success">
-                    <button>Proceed to Checkout</button>
+                <Link to="/payment">
+                    <button>Proceed to Payment</button>
                 </Link>
             </Footer>
         </Container>
@@ -92,17 +84,26 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-    background-color: lightblue;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    background-color: white;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 40px;
+    height: 50px;
     margin-bottom: 20px;
     position: fixed;
     top: 0px;
     left: 0px;
     right: 0px;
     z-index: 1;
+
+    img{
+        width: 30px;
+        height: 30px;
+        margin-left: 20px;
+        border-radius: 50%;
+    }
 `;
 
 const Main = styled.main`
@@ -112,10 +113,15 @@ const Main = styled.main`
     align-items: center;
     margin-top: 50px;
     margin-bottom: 110px;
+
+    h2{
+        margin-top: 300px;
+    }
 `;
 
 const Footer = styled.footer`
-    background-color: lightblue;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+    background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -135,10 +141,14 @@ const Footer = styled.footer`
     }
 
     button{
+        margin-top: 10px;
         width: 300px;
         height: 40px;
-        background-color: lightgreen;
-        border: 1px solid black;
-        border-radius: 5px;
+        background-color: var(--main-green);
+        border: 0px solid black;
+        border-radius: 15px;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
     }
 `;

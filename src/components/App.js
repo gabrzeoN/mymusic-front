@@ -4,9 +4,10 @@ import { useState } from "react";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import HomeScreen from "./HomeScreen"
-import CartScreen from "./CartScreen";
-import SuccessScreen from "./SuccessScreen";
 import DescriptionScreen from "./DescriptionScreen";
+import CartScreen from "./CartScreen";
+import PaymentScreen from "./PaymentScreen";
+import SuccessScreen from "./SuccessScreen";
 
 import "./../assets/reset.css";
 import "./../assets/style.css";
@@ -27,6 +28,7 @@ function App() {
                     <Route path="/home" element={<HomeScreen />} />
                     <Route path="/description/:itemID" element={<DescriptionScreen />} /> 
                     <Route path="/cart" element={<CartScreen />} />
+                    <Route path="/payment" element={<PaymentScreen />} />
                     <Route path="/success" element={<SuccessScreen />} />
                 </Routes>
             </BrowserRouter>
