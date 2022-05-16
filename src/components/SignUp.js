@@ -2,6 +2,8 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styled from "styled-components";
+import UserContext from "./UserContext";
+import {useContext} from "react";
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -10,6 +12,7 @@ export default function Signup() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmpassword] = useState("");
     const navigate = useNavigate();
+    const { setUserData } = useContext(UserContext);
 
     function register(e) {
         e.preventDefault();
@@ -24,6 +27,7 @@ export default function Signup() {
         promise.then(response => {
             const { data } = response;
             console.log(data);
+            setUserData(data);
             navigate("/");
         });
         promise.catch(err => {

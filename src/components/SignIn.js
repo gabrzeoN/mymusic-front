@@ -11,6 +11,7 @@ export default function SignIn() {
     const [password, setPassword] = React.useState("");
     const navigate = useNavigate();
     const { setToken } = useContext(UserContext);
+    
    
     function login() {
         const URL = "http://127.0.0.1:5000/sign-in"; 
@@ -21,6 +22,7 @@ export default function SignIn() {
         promise.then(response => {
             const { data } = response;
             setToken(data.token)
+
             {data.setToken === null ? navigate("/sign-up") : navigate("/home");}
             
         })
