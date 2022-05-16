@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "./UserContext.js";
 import Item from "./Item.js";
@@ -13,6 +13,7 @@ import Item from "./Item.js";
 
 export default function CartScreen(){
     const getCartURL = `http://localhost:5000/cart`;
+    const navigate = useNavigate();
     const [userCart, setUserCart] = useState(null);
     const [totalValue, setTotalValue] = useState(0);
     const {userData} = useContext(UserContext);
@@ -49,7 +50,9 @@ export default function CartScreen(){
     return (
         <Container>
             <Header>
-                <ion-icon name="chevron-back-outline"></ion-icon>
+            <div>
+                    <ion-icon onClick={() => navigate("/home")} name="chevron-back-outline"></ion-icon>
+                </div>
                 <h1>Shopping Cart</h1>
                 <ion-icon name="trash-outline"></ion-icon>
             </Header>
