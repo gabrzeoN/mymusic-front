@@ -21,7 +21,7 @@ export default function StoreItem({item}){
 
 const StoreItemContent = styled.div`
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
-    background-color: lightgray;
+    background-color: white;
     width: 326px;
     display: flex;
     flex-direction: column;

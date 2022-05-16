@@ -12,8 +12,8 @@ export default function HomeScreen() {
     const [storeItems, setStoreItems] = useState(null);
     const [itemsOnDisplay, setItemsOnDisplay] = useState(null);
     const { userData } = useContext(UserContext)
-    // const {name, image, token} = userData;
-    const name = "Gabriel", image = "https://http.cat/200", token = "60109657-c9fb-41d2-9e93-ff416973b721";
+    const {name, image, token} = userData;
+    // const name = "Gabriel", image = "https://http.cat/200", token = "60109657-c9fb-41d2-9e93-ff416973b721";
     const navigate = useNavigate();
 
     const config = {
@@ -73,8 +73,8 @@ export default function HomeScreen() {
                     <button onClick={() => filterItemsOnDisplay("eletric-guitar")}      >ELETRICS</button>
                     <button onClick={() => filterItemsOnDisplay("accoustic-guitar")}    >ACCOUSTICS</button>
                     <button onClick={() => filterItemsOnDisplay("bass")}                >BASSES</button>
-                    <button onClick={() => filterItemsOnDisplay("guitar-amps")}         >GUITAR AMPS</button>
-                    <button onClick={() => filterItemsOnDisplay("bass-amps")}           >BASS AMPS</button>
+                    <button onClick={() => filterItemsOnDisplay("guitar-amp")}         >GUITAR AMPS</button>
+                    <button onClick={() => filterItemsOnDisplay("bass-amp")}           >BASS AMPS</button>
                 </section>
                 <section className="items-on-display">
                     {
