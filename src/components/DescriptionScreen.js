@@ -10,7 +10,7 @@ export default function DescriptionScreen(){
     const {name, image, description, price, _id} = item;
     const showPrice = price.toFixed(2).replace(".", ",");
     
-    const postItemToCartURL = `http://localhost:5000/cart`;
+    const postItemToCartURL = `https://mymusic-gabrielcari.herokuapp.com/cart`;
     const { userData } = useContext(UserContext)
     const {token} = userData;
     const navigate = useNavigate();

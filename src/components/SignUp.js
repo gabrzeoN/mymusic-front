@@ -4,7 +4,7 @@ import { useState } from "react";
 import styled from "styled-components";
 
 export default function Signup() {
-    const signUpURL = "http://127.0.0.1:5000/sign-up";
+    const signUpURL = "https://mymusic-gabrielcari.herokuapp.com/sign-up";
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [image, setImage] = useState("");

@@ -6,7 +6,7 @@ import UserContext from "./UserContext.js";
 import Item from "./Item.js";
 
 export default function CartScreen(){
-    const getCartURL = `http://localhost:5000/cart`;
+    const getCartURL = `https://mymusic-gabrielcari.herokuapp.com/cart`;
     const navigate = useNavigate();
     const [userCart, setUserCart] = useState(null);
     const [totalValue, setTotalValue] = useState(0);

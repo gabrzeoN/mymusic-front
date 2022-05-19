@@ -7,8 +7,8 @@ import UserContext from "./UserContext";
 import StoreItem from "./StoreItem.js"
 
 export default function HomeScreen() {
-    const getStoreURL = `http://localhost:5000/store`;
-    const putLogoutURL = "http://localhost:5000/sign-out";
+    const getStoreURL = `https://mymusic-gabrielcari.herokuapp.com/store`;
+    const putLogoutURL = "https://mymusic-gabrielcari.herokuapp.com/sign-out";
     const [storeItems, setStoreItems] = useState(null);
     const [itemsOnDisplay, setItemsOnDisplay] = useState(null);
     const { userData } = useContext(UserContext)

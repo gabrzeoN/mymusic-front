@@ -5,7 +5,7 @@ import styled from "styled-components";
 import UserContext from "./UserContext.js";
 
 export default function PaymentScreen(){
-    const postPurchaseURL = `http://localhost:5000/payment`;
+    const postPurchaseURL = `https://mymusic-gabrielcari.herokuapp.com/payment`;
     const navigate = useNavigate();
 
     const [address, setAddress] = useState("");
