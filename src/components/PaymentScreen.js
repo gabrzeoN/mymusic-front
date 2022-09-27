@@ -1,28 +1,20 @@
-import axios from "axios";
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "./UserContext.js";
+import { postPurchase } from "../services/paymentApi.js";
 
 export default function PaymentScreen(){
-    const postPurchaseURL = `https://mymusic-gabrielcari.herokuapp.com/payment`;
     const navigate = useNavigate();
-
     const [address, setAddress] = useState("");
     const [creditCard, setCreditCard] = useState("");
-
     const {userData} = useContext(UserContext);
     const {token, image} = userData;
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
 
     async function purchase(e){
         e.preventDefault();
         try{
-            const {data} = await axios.post(postPurchaseURL, {address, creditCard}, config);
+            await postPurchase({address, creditCard}, token);
             navigate("/success");
             return;
         }catch(e){
@@ -38,7 +30,7 @@ export default function PaymentScreen(){
                 <ion-icon onClick={() => navigate("/cart")} name="chevron-back-outline"></ion-icon>
                 </div>
                 <h1>Payment</h1>
-                <img src={image} ></img>
+                <img src={image} alt="" ></img>
             </Header>
             <Main>
                 <form onSubmit={purchase}>
@@ -119,10 +111,4 @@ const Main = styled.main`
         font-size: 20px;
         color: #FFFFFF;
     }
-`;
-
-const StyledLink = styled(Link)`
-    font-size: 20px;
-    margin-top: 25px;
-    color: white;
 `;

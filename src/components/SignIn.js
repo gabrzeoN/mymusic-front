@@ -1,42 +1,36 @@
 import React from "react";
-import axios from "axios";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import {useContext} from "react";
 import UserContext from "./UserContext";
-
+import { signIn } from "../services/authApi.js";
 
 export default function SignIn() {
-    const signInURL = "https://mymusic-gabrielcari.herokuapp.com/sign-in"; 
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const navigate = useNavigate();
-    const { userData, setUserData } = useContext(UserContext);
-
-    function login(e) {
+    const { setUserData } = useContext(UserContext);
+    
+    async function login(e) {
         e.preventDefault();
-        const promise = axios.post(signInURL, {
-            email,
-            password
-        });
-        promise.then(({data}) => {
-            const {name, image, token} = data;
+        try {
+            const user = await signIn({email, password}); 
+            const {name, image, token} = user;
             setUserData({name, image, token});
             navigate("/home");
-            return;
-        });
-        promise.catch(error => {
+            
+        } catch (error) {
             alert(error.response.data);
-            return;
-        });
+            
+        }
     }
 
     return (
         <Main>
             <h1>MyMusic</h1>
             <form onSubmit={login}>
-                <input typeof="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input typeof="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 <button type="submit" >Login</button>
             </form>
             <StyledLink to="/sign-up">I don't have an account!</StyledLink>

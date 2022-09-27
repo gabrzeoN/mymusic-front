@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function StoreItem({item}){
-    let {name, image, description, price, _id} = item;
+    let {name, image, price} = item;
     price = price.toFixed(2).replace(".", ",");
     const navigate = useNavigate();
 
@@ -11,7 +11,7 @@ export default function StoreItem({item}){
 
     return (
         <StoreItemContent onClick={() => showItemDescription()}>
-            <img src={image}></img>
+            <img src={image} alt=""></img>
             <p>{name}</p>
             <p>USD {price}</p> 
         </StoreItemContent>

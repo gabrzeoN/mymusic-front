@@ -1,10 +1,9 @@
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styled from "styled-components";
+import { signUp } from "../services/authApi";
 
-export default function Signup() {
-    const signUpURL = "https://mymusic-gabrielcari.herokuapp.com/sign-up";
+export default function SignUp() {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
@@ -14,7 +13,7 @@ export default function Signup() {
 
     function register(e) {
         e.preventDefault();
-        const promise = axios.post(signUpURL, {
+        const promise = signUp({
             email: email,
             name: name,
             image: image,
@@ -22,7 +21,6 @@ export default function Signup() {
             confirmPassword: confirmPassword
         });
         promise.then(response => {
-            const { data } = response;
             navigate("/");
         });
         promise.catch(error => {

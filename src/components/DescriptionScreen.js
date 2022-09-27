@@ -1,29 +1,26 @@
-import axios from "axios";
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "./UserContext.js";
+import { postCart } from "../services/cartApi.js";
 
 export default function DescriptionScreen(){
     const location = useLocation();
     const item = location.state;
-    const {name, image, description, price, _id} = item;
+    const { name, image, description, price } = item;
     const showPrice = price.toFixed(2).replace(".", ",");
-    
-    const postItemToCartURL = `https://mymusic-gabrielcari.herokuapp.com/cart`;
     const { userData } = useContext(UserContext)
-    const {token} = userData;
+    const { token } = userData;
     const navigate = useNavigate();
-
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
 
     async function addToCart(){
         try{
-            const {data} = await axios.post(postItemToCartURL,{name, image, description, price}, config);
+            await postCart({
+                name,
+                image,
+                description,
+                price
+            }, token);
             navigate("/cart");
             return;
         }catch(e){
@@ -46,7 +43,7 @@ export default function DescriptionScreen(){
             <Main>
                 <h1>{name}</h1>
                 <p>{description}</p>
-                <img src={image} ></img>
+                <img src={image} alt="" />
                 <h2>USD {showPrice}</h2>
                 <button onClick={() => addToCart()} >Add To Cart</button>
             </Main>

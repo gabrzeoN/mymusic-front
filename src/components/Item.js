@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 export default function Item({item}){
-    let {name, image, description, price} = item;
-    price = price.toFixed(2).replace(".", ",");
+    let {name, image, price} = item;
+    price = price?.toFixed(2).replace(".", ",");
 
     return (
         <ItemContent>
-            <img src={image}></img>
+            <img src={image} alt="" />
             <p>{name}</p>
             <div>
                 <p>USD {price}</p>

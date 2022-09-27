@@ -2,29 +2,21 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
-import axios from "axios";
 import UserContext from "./UserContext";
 import StoreItem from "./StoreItem.js"
+import { signOut } from "../services/authApi";
+import { getStore } from "../services/storeApi";
 
 export default function HomeScreen() {
-    const getStoreURL = `https://mymusic-gabrielcari.herokuapp.com/store`;
-    const putLogoutURL = "https://mymusic-gabrielcari.herokuapp.com/sign-out";
     const [storeItems, setStoreItems] = useState(null);
     const [itemsOnDisplay, setItemsOnDisplay] = useState(null);
     const { userData } = useContext(UserContext)
     const {name, image, token} = userData;
-
     const navigate = useNavigate();
-
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
 
     async function getAllItems() {
         try{
-            const {data: items} = await axios.get(getStoreURL, config);
+            const items = await getStore(token);
             setStoreItems([...items]);
             setItemsOnDisplay([...items]);
             return;
@@ -37,7 +29,7 @@ export default function HomeScreen() {
 
     async function logout(){
         try{
-            await axios.put(putLogoutURL, {}, config);
+            await signOut(token);
             navigate("/");
         }catch(error){
             alert(error.response.data);
@@ -56,7 +48,7 @@ export default function HomeScreen() {
             <Header>
                 <div>
                     <ion-icon onClick={() => logout()} name="log-out-outline"></ion-icon>
-                    <img src={image}></img>
+                    <img src={image} alt=""></img>
                 </div>
                 <h1>MyMusic</h1>
                 <Link to="/cart">

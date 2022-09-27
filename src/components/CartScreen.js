@@ -1,22 +1,16 @@
-import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import UserContext from "./UserContext.js";
 import Item from "./Item.js";
+import { getCart } from "../services/cartApi.js";
 
 export default function CartScreen(){
-    const getCartURL = `https://mymusic-gabrielcari.herokuapp.com/cart`;
     const navigate = useNavigate();
     const [userCart, setUserCart] = useState(null);
     const [totalValue, setTotalValue] = useState(0);
     const {userData} = useContext(UserContext);
     const {token, image} = userData;
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }
 
     function setCartValue(items){
         let value = 0;
@@ -27,7 +21,7 @@ export default function CartScreen(){
 
     async function loadCart(){
         try{
-            const {data: cart} = await axios.get(getCartURL, config);
+            const cart = await getCart(token);
             setCartValue(cart);
             setUserCart([...cart]);
             return;
@@ -46,7 +40,7 @@ export default function CartScreen(){
                     <ion-icon onClick={() => navigate("/home")} name="chevron-back-outline"></ion-icon>
                 </div>
                 <h1>Shopping Cart</h1>
-                <img src={image} ></img>
+                <img src={image} alt=""></img>
             </Header>
             <Main>
                 {
